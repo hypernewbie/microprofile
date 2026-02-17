@@ -21,7 +21,7 @@
 
 <style>
 /* about css: http://bit.ly/1eMQ42U */
-body {margin: 0px;padding: 0px; font: 12px Courier New;background-color:#343434; color:white;overflow:hidden;}
+body {margin: 0px;padding: 0px; font: 14px Consolas, Monaco, monospace;background-color:#272822; color:#f8f8f2;overflow:hidden;}
 ul {list-style-type: none;margin: 0;padding: 0;}
 li{display: inline; float:left;border:5px; position:relative;text-align:center;}
 a {
@@ -32,11 +32,11 @@ a {
 	padding:5px;
 	padding-bottom:0px;
 	padding-top:0px;
-    color: #FFFFFF;
-    background-color: #343434;
+    color: #66d9ef;
+    background-color: transparent;
 }
 a:hover, a:active{
-	background-color: #000000;
+	background-color: #3e3d32;
 }
 
 ul ul {
@@ -54,10 +54,10 @@ ul li ul li{ display:block;float:none;width:100%;}
 li li a{ display:block;float:none;width:100%;text-align:left;}
 #nav li:hover div {margin-left:0;}
 .dropzone {display:flex;justify-content:center;align-items:center;font-size:50px;position: fixed; top: 0; left: 0; z-index: 9999999999; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);transition: visibility 175ms, opacity 175ms;}
-.help {position:absolute;z-index:5;text-align:left;padding:2px;margin-left:-999em;background-color: #313131;width:300px;}
-.helpstart {position:absolute;z-index:5;text-align:left;padding:2px;background-color: #313131;width:300px;display:none}
+.help {position:absolute;z-index:5;text-align:left;padding:2px;margin-left:-999em;background-color: #1e1f1c; color: #f8f8f2; border: 1px solid #49483E; width:300px;}
+.helpstart {position:absolute;z-index:5;text-align:left;padding:2px;background-color: #1e1f1c; color: #f8f8f2; border: 1px solid #49483E; width:300px;display:none}
 .root {z-index:1;position:absolute;top:0px;left:0px;}
-.filterinputsearchdiv{position:fixed; background-color: #313131;display:none;}
+.filterinputsearchdiv{position:fixed; background-color: #1e1f1c; color: #f8f8f2; border: 1px solid #49483E; display:none;}
 .filterinputsearch{width:100px;}
   #popup-overlay {
     display: none;
@@ -71,8 +71,10 @@ li li a{ display:block;float:none;width:100%;text-align:left;}
   }
 
   #popup-box {
-    background: #343434;
+    background: #1e1f1c;
+    color: #f8f8f2;
     padding: 20px 30px;
+    border: 1px solid #49483E;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
     min-width: 320px;
@@ -222,19 +224,24 @@ var ViewIndex = 0;
 
 var nWidth = CanvasDetailedView.width;
 var nHeight = CanvasDetailedView.height;
-var nBackColors = ['#292929', '#343434' ];
-var nBackColorsDark = ['#292929', '#272727' ];
-var nBackColorOffset = '#404040';
+var nBackColors = ['#1e1f1c', '#272822' ];
+var nBackColorsDark = ['#141512', '#1e1f1c' ];
+var nBackColorOffset = '#3e3d32';
 const FontHeight = 10;
 const FontHeightLarge = 12;
 const FontHeightLarger = 22;
 var FontWidth = 1;
 var FontAscent = 3; //Set manually
-const Font = 'Bold ' + FontHeight + 'px Courier New';
-const FontLarge = 'Bold ' + FontHeightLarge + 'px Courier New';
-const FontLarger = 'Bold ' + FontHeightLarger + 'px Courier New';
-const FontFlash = 'Bold ' + 35 + 'px Courier New';
+const FontName = 'Consolas';
+const Font = 'Bold ' + FontHeight + 'px ' + FontName;
+const FontLarge = 'Bold ' + FontHeightLarge + 'px ' + FontName;
+const FontLarger = 'Bold ' + FontHeightLarger + 'px ' + FontName;
+const FontFlash = 'Bold ' + 35 + 'px ' + FontName;
 var BoxHeight = FontHeight + 2;
+const MenuFontHeight = 16;
+const MenuBoxHeight = MenuFontHeight + 2;
+const MenuFont = 'Bold ' + MenuFontHeight + 'px ' + FontName;
+const MenuFontAscent = 3;
 var MouseX = 0;
 var MouseY = 0;
 var MouseReleased = false;
@@ -1225,7 +1232,7 @@ function DrawBars(View, LocalMouseX, LocalMouseY, SubIndex)
 	if(BarWidth < 14)
 	{
 		DrawNames = BarWidth > 4;
-		var FontXX = 'Bold ' + Math.floor(BarWidth) + 'px Courier New';
+		var FontXX = 'Bold ' + Math.floor(BarWidth) + 'px ' + FontName;
 		BarFont = FontXX;
 
 	}
@@ -2202,8 +2209,8 @@ function DrawGraphPercentile(View, LocalMouseX, LocalMouseY, SubIndex)
 function DrawGraphViewLargeHeader(context, Text, Y, TextOffset)
 {
 	context.textAlign = "left";
-	context.fillStyle = "grey";
-	context.strokeStyle = "grey";
+	context.fillStyle = "#75715e";
+	context.strokeStyle = "#75715e";
 	context.textBaseline = "top";
 	context.font = FontLarger;
 	context.beginPath();
@@ -2912,9 +2919,9 @@ function DrawCaptureMenu(context)
 	var Y = nHeight - 30;
 	MouseInCaptureButton = MouseInside(X, Y, w, 4 + FontHeight);
 	context.textAlign = 'center';
-	context.fillStyle = MouseInCaptureButton ? nBackColors[1] : 'black';
+	context.fillStyle = MouseInCaptureButton ? nBackColors[1] : '#1e1f1c';
 	context.fillRect(X, Y, w, 4 + FontHeight);
-	context.fillStyle = '#ffffff';
+	context.fillStyle = '#f8f8f2';
 	context.fillText(CaptureText, XCenter, Y + FontHeight);
 
 
@@ -2923,7 +2930,7 @@ function DrawCaptureMenu(context)
 	var MenuText = "^";
 	var w2 = 10 + context.measureText(MenuText).width;
 	var bMouseInCaptureMenu = MouseInside(X, Y, w2, 4 + FontHeight);
-	context.fillStyle = bMouseInCaptureMenu ? nBackColors[1] : 'black';
+	context.fillStyle = bMouseInCaptureMenu ? nBackColors[1] : '#1e1f1c';
 	context.fillRect(X, Y, w2, 4 + FontHeight);
 
 	context.fillStyle = '#ffffff';
@@ -3257,9 +3264,10 @@ function InitMenu()
 function DrawTopMenu()
 {
 	var context = CanvasDetailedView.getContext('2d');
+	context.font = MenuFont;
 	var X = 2;
 	var Y = 0;
-	var MouseInY = MouseY < BoxHeight;
+	var MouseInY = MouseY < MenuBoxHeight;
 	for(var i = 0; i < MenuItems.length; ++i)
 	{
 		if(i == SubMenuColumns)
@@ -3277,20 +3285,20 @@ function DrawTopMenu()
 		{
 			var w = context.measureText(Item.name).width + 4;
 			var MouseIn = MouseInY && MouseX >= X && MouseX < X + w;
-			var color = MouseIn ? nBackColors[1] : "black";
+			var color = MouseIn ? nBackColors[1] : "#1e1f1c";
 			Item.x = X;
-			Item.y = Y + BoxHeight;
+			Item.y = Y + MenuBoxHeight;
 			if(MouseIn)
 			{
-				context.fillStyle = 'white';
-				context.fillRect(X-2, Y, w+4, BoxHeight);
+				context.fillStyle = '#f8f8f2';
+				context.fillRect(X-2, Y, w+4, MenuBoxHeight);
 				// Enable
 				EnableMenu(i);
 			}
 			context.fillStyle = color;
-			context.fillRect(X, Y, w, BoxHeight);
-			context.fillStyle = "white";
-			context.fillText(Item.name, X+2, Y+BoxHeight-FontAscent);
+			context.fillRect(X, Y, w, MenuBoxHeight);
+			context.fillStyle = "#f8f8f2";
+			context.fillText(Item.name, X+2, Y+MenuBoxHeight-MenuFontAscent);
 			if(MouseIn && MouseReleased)
 			{
 				Item.f();
@@ -3298,6 +3306,7 @@ function DrawTopMenu()
 			X += w + 6;
 		}
 	}
+	context.font = Font;
 }
 
 function AggregateMenuSize()
@@ -4120,35 +4129,35 @@ function DrawMenuElement(M, Selected, Name, Value, color)
 	var context = CanvasDetailedView.getContext('2d');
 
 	var bMouseIn = DrawMenuElementMouseIn(M);
-	var YText = M.y + BoxHeight - FontAscent;
+	var YText = M.y + MenuBoxHeight - MenuFontAscent;
 
 	var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[M.cidx];
-	context.fillStyle = Selected?'white':bgcolor;
-	context.fillRect(M.x-2, M.y, M.w + 4, BoxHeight);
+	context.fillStyle = Selected?'#f8f8f2':bgcolor;
+	context.fillRect(M.x-2, M.y, M.w + 4, MenuBoxHeight);
 	context.fillStyle = bgcolor;
-	context.fillRect(M.x, M.y, M.w, BoxHeight);
+	context.fillRect(M.x, M.y, M.w, MenuBoxHeight);
 	context.fillStyle = color;
 	context.fillText(Name, M.x, YText);
 	context.textAlign = 'right';
 	context.fillText('' + Value, M.x + M.w - 2, YText);
 	context.textAlign = 'left';
 	M.cidx = 1-M.cidx;
-	M.y += BoxHeight;
+	M.y += MenuBoxHeight;
 	return bMouseIn && MouseReleased;
 }
 function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 {
 	var context = CanvasDetailedView.getContext('2d');
 
-	var YText = M.y + BoxHeight - FontAscent;
+	var YText = M.y + MenuBoxHeight - MenuFontAscent;
 	var SizeMinus = context.measureText('-').width;
 	var SizePlus = context.measureText('+').width;
 
-	var bMouseIn = MouseY >= M.y && MouseY < M.y + BoxHeight;
+	var bMouseIn = MouseY >= M.y && MouseY < M.y + MenuBoxHeight;
 	var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[M.cidx];
 	context.fillStyle = bgcolor;
-	context.fillRect(M.x-2, M.y, M.w+4, BoxHeight);
-	context.fillStyle = 'white';
+	context.fillRect(M.x-2, M.y, M.w+4, MenuBoxHeight);
+	context.fillStyle = '#f8f8f2';
 	context.fillText(Name, M.x, YText);
 	context.textAlign = 'right';
 	var XTemp = M.x + M.w - 3;
@@ -4170,7 +4179,7 @@ function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 	var MouseReleasedUsed = false;
 	if(bMouseIn && MouseX >= XTemp - SizePlus && MouseX <= XTemp)
 	{
-		context.fillStyle = 'red';
+		context.fillStyle = '#f92672';
 		if(MouseReleased)
 		{
 			RollFunction(1);
@@ -4179,7 +4188,7 @@ function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 	}
 	else
 	{
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 	}
 	context.fillText('+', XTemp, YText);
 	XTemp -= SizePlus + 3;
@@ -4188,7 +4197,7 @@ function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 
 	if(bMouseIn && MouseX >= XTemp - SizeMinus && MouseX <= XTemp)
 	{
-		context.fillStyle = 'red';
+		context.fillStyle = '#f92672';
 		if(MouseReleased)
 		{
 			RollFunction(-1);
@@ -4197,14 +4206,14 @@ function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 	}
 	else
 	{
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 	}
 
 	context.fillText('-', XTemp, YText);
 	XTemp -= SizeMinus + 3;
 	var RollText = ''+RollValue + RollExt;
 	var RollWidth = context.measureText(RollText).width;
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 
 	context.fillText(RollText, XTemp, YText);
 	XTemp -= RollWidth;
@@ -4213,7 +4222,7 @@ function DrawMenuRoll(M, Name, RollValue, RollExt, RollFunction, Tweak, Type)
 
 	M.cidx = 1-M.cidx;
 
-	M.y += BoxHeight;
+	M.y += MenuBoxHeight;
 	if(Type && MouseReleased && bMouseIn && !MouseReleasedUsed)
 	{
 		var V = ShowPrompt(Name, RollValue, Type);
@@ -5548,13 +5557,14 @@ function DrawMenuFunctions()
 function DrawMenuGeneric(Elements, Active, OnClick, x, y, Elements2)
 {
 	var context = CanvasDetailedView.getContext('2d');
+	context.font = MenuFont;
 	var nColorIndex = 0;
 	if(Elements2.length != Elements.length)
 	{
 		Elements2 = null;
 	}
 
-	var h = FontHeight * Elements.length;
+	var h = MenuFontHeight * Elements.length;
 	var w = 20;
 	var w2 = 0;
 	for(var i = 0; i < Elements.length; ++i)
@@ -5579,14 +5589,14 @@ function DrawMenuGeneric(Elements, Active, OnClick, x, y, Elements2)
 	{
 		var Selected = Active == i;
 		var Name = Elements[i];
-		var bMouseIn = MouseY >= Y && MouseY < Y + BoxHeight;
+		var bMouseIn = MouseY >= Y && MouseY < Y + MenuBoxHeight;
 		var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[nColorIndex];
-		var TextY = Y+BoxHeight-FontAscent;
-		context.fillStyle = Selected?'white':bgcolor;
-		context.fillRect(X-2, Y, w+4, BoxHeight);
+		var TextY = Y+MenuBoxHeight-MenuFontAscent;
+		context.fillStyle = Selected?'#f8f8f2':bgcolor;
+		context.fillRect(X-2, Y, w+4, MenuBoxHeight);
 		context.fillStyle = bgcolor;
-		context.fillRect(X, Y, w, BoxHeight);
-		context.fillStyle = 'white';
+		context.fillRect(X, Y, w, MenuBoxHeight);
+		context.fillStyle = '#f8f8f2';
 		context.fillText(Name, X + 2, TextY);
 		if(Elements2)
 		{
@@ -5594,14 +5604,14 @@ function DrawMenuGeneric(Elements, Active, OnClick, x, y, Elements2)
 			context.fillText(Elements2[i], X + w , TextY);
 			context.textAlign = "left";
 		}
-		context.fillText(Name, X + 2, TextY);
 		if(bMouseIn && MouseReleased)
 		{
 			OnClick(i, Name);
 		}
-		Y += BoxHeight;
+		Y += MenuBoxHeight;
 		nColorIndex = 1-nColorIndex;
 	}
+	context.font = Font;
 	SizeInfo.h = Y - SizeInfo.y;
 	return SizeInfo;
 }
@@ -5632,17 +5642,17 @@ function DrawMenuGroup()
 
 	function DrawMenuElement(Selected, Name, color, Indent)
 	{
-		var bMouseIn = MouseY >= Y && MouseY < Y + BoxHeight;
+		var bMouseIn = MouseY >= Y && MouseY < Y + MenuBoxHeight;
 		var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[nColorIndex];
-		context.fillStyle = Selected?'white':bgcolor;
-		context.fillRect(X-2, Y, Width+4, BoxHeight);
+		context.fillStyle = Selected?'#f8f8f2':bgcolor;
+		context.fillRect(X-2, Y, Width+4, MenuBoxHeight);
 		context.fillStyle = bgcolor;
-		context.fillRect(X, Y, Width, BoxHeight);
+		context.fillRect(X, Y, Width, MenuBoxHeight);
 		context.fillStyle = color;
 		if(!Indent) Indent = 0;
-		context.fillText(Name, X + Indent*FontWidth, Y+BoxHeight-FontAscent);
+		context.fillText(Name, X + Indent*FontWidth, Y+MenuBoxHeight-MenuFontAscent);
 		nColorIndex = 1-nColorIndex;
-		Y += BoxHeight;
+		Y += MenuBoxHeight;
 		return bMouseIn;
 	}
 	function DrawMenuRecursive(Index, Indent, categorymatch)
@@ -5730,17 +5740,17 @@ function DrawMenuCounters()
 
 	function DrawMenuElement(Selected, Name, color, Indent)
 	{
-		var bMouseIn = MouseY >= Y && MouseY < Y + BoxHeight;
+		var bMouseIn = MouseY >= Y && MouseY < Y + MenuBoxHeight;
 		var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[nColorIndex];
-		context.fillStyle = Selected?'white':bgcolor;
-		context.fillRect(X-2, Y, Width+4, BoxHeight);
+		context.fillStyle = Selected?'#f8f8f2':bgcolor;
+		context.fillRect(X-2, Y, Width+4, MenuBoxHeight);
 		context.fillStyle = bgcolor;
-		context.fillRect(X, Y, Width, BoxHeight);
+		context.fillRect(X, Y, Width, MenuBoxHeight);
 		context.fillStyle = color;
 		if(!Indent) Indent = 0;
-		context.fillText(Name, X + Indent*FontWidth, Y+BoxHeight-FontAscent);
+		context.fillText(Name, X + Indent*FontWidth, Y+MenuBoxHeight-MenuFontAscent);
 		nColorIndex = 1-nColorIndex;
-		Y += BoxHeight;
+		Y += MenuBoxHeight;
 		return bMouseIn;
 	}
 	function DrawMenuRecursive(Index, Indent, categorymatch)
@@ -5815,6 +5825,7 @@ function DrawMenu()
 	if(WSConnected && WS && WS.readyState == 1 && !Settings.ViewCompressed)
 	{
 		var context = CanvasDetailedView.getContext('2d');
+		context.font = MenuFont;
 		var nColorIndex = 0;
 		var Y = 50;
 		var Width = 300;
@@ -5912,6 +5923,7 @@ function DrawMenu()
 			context.stroke();
 		}
 		SpinnerDraw(SpinnerShow(), context, SpinnerCorner, 0, nHeight-20,  20, 20);
+		context.font = Font;
 		ProfileLeave();
 	}
 }

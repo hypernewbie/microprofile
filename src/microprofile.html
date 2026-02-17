@@ -428,9 +428,9 @@ var GlobalMouseY = -1;
 var MouseReleased = false;
 var MouseHistory = 0;
 var MouseDetailed = 0;
-const FontName = 'Consolas';
-const FontHeight = 10;
-const FontHeightLarge = 12;
+const FontName = "'Cascadia Code', 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', monospace";
+const FontHeight = 12;
+const FontHeightLarge = 14;
 const FontHeightFlash = 35;
 let FontWidth = 1;
 const FontAscent = 3; //Set manually
@@ -438,7 +438,7 @@ const Font = 'Bold ' + FontHeight + 'px ' + FontName;
 const FontLarge = 'Bold ' + FontHeightLarge + 'px ' + FontName;
 const FontFlash = 'Bold ' + FontHeightFlash + 'px ' + FontName;
 const BoxHeight = FontHeight + 2;
-const MenuFontHeight = 16;
+const MenuFontHeight = 18;
 const MenuBoxHeight = MenuFontHeight + 2;
 const MenuFont = 'Bold ' + MenuFontHeight + 'px ' + FontName;
 const MenuFontAscent = 3;
@@ -1793,7 +1793,7 @@ function DrawFlashMessage(context)
 
 function DrawCaptureInfo(context)
 {
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	context.textAlign = 'right';
 	context.font = Font;
 	var DumpDate = S.DumpUtcCaptureTime;
@@ -1889,11 +1889,11 @@ function DrawDetailedFrameHistory()
 	var X = fRangeHistoryBegin;
 	var Y = 0;
 	var W = fRangeHistoryEnd - fRangeHistoryBegin;
-	context.globalAlpha = 0.35;
-	context.fillStyle = '#009900';
+	context.globalAlpha = 0.25;
+	context.fillStyle = '#66d9ef';
 	context.fillRect(X, Y, W, fHeight);
 	context.globalAlpha = 1;
-	context.strokeStyle = '#00ff00';
+	context.strokeStyle = '#a6e22e';
 	context.beginPath();
 	context.moveTo(X, Y);
 	context.lineTo(X, Y+fHeight);
@@ -1903,9 +1903,8 @@ function DrawDetailedFrameHistory()
 
 	{
 		var fH = fHeight - fHeightScale * TargetTime;
-		context.fillStyle = 'wheat';
-		context.strokeStyle = 'wheat';
-		context.beginPath();
+		context.fillStyle = '#75715e';
+		context.strokeStyle = '#75715e';		context.beginPath();
 		context.moveTo(0, fH);
 		context.lineTo(nWidth, fH);
 		// context.closePath();
@@ -2381,7 +2380,7 @@ function DrawBarView()
 	var XBase = -nOffsetBarsX;
 	var nColorIndex = 0;
 
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	context.font = Font;
 	var bMouseIn = 0;
 	var RcpReferenceTime = 1.0 / ReferenceTime;
@@ -2428,7 +2427,7 @@ function DrawBarView()
 	{
 		if(ColumnsEnabled[R]||AllColumns)
 		{
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillText(HeaderString(Header), X, Height-FontAscent);
 			var XBegin = X;
 			X += nWidthBars;
@@ -2446,7 +2445,7 @@ function DrawBarView()
 	{
 		if(ColumnsEnabled[Col]||AllColumns)
 		{
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillText(HeaderString(Header), X, Height-FontAscent);
 			var XBegin = X;
 			X += ColumnsWidth[R];
@@ -2462,7 +2461,7 @@ function DrawBarView()
 	function DrawHeaderSplitLeftRight(HeaderLeft, HeaderRight, Width)
 	{
 		context.textAlign = 'left';
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		context.fillText(HeaderLeft, X, Height-FontAscent);
 		var XBegin = X;
 		X += Width;
@@ -2494,7 +2493,7 @@ function DrawBarView()
 			ColumnsWidth[R] = Math.max(W, ColumnsWidth[R]);
 			X += nWidthBars;
 			X += ColumnsWidth[R];
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.textAlign = 'right';
 			context.fillText(TimerText, X - FontWidth, YText);
 			context.textAlign = 'left';
@@ -2506,7 +2505,7 @@ function DrawBarView()
 		if(ColumnsEnabled[R]||AllColumns)
 		{
 			X += ColumnsWidth[R];
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.textAlign = 'right';
 			var YText = Y+Height-FontAscent;
 			context.fillText(Str, X-6, YText);
@@ -2569,7 +2568,7 @@ function DrawBarView()
 		DrawTimer(ExclusiveAverage, Color);
 		DrawTimer(ExclusiveMax, Color);
 
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		var Col = R;
 		for(var j = 0; j < nMetaLen; ++j)
 		{
@@ -2585,7 +2584,7 @@ function DrawBarView()
 		context.textAlign = 'left';
 		if(showgroup)
 		{
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillText(S.GroupInfo[Timer.group].name, 1, YText);
 		}
 	}
@@ -2660,7 +2659,7 @@ function DrawBarView()
 					var PerThreadTimerTotal = S.ThreadGroupTimeTotalArray[i][groupid];
 					if((PerThreadTimer > 0.0001|| PerThreadTimerTotal>0.1) && (!GroupsDisabled[Group.name]) && FilterMatch(FilterGroup, Group.name))
 					{
-						var GColor = GroupColors ? g_Colors[S.GroupInfo[groupid].cid] : 'white';
+						var GColor = GroupColors ? g_Colors[S.GroupInfo[groupid].cid] : '#f8f8f2';
 						var X = 0;
 						nColorIndex = 1-nColorIndex;
 						bMouseIn = DetailedViewMouseY >= Y && DetailedViewMouseY < Y + BoxHeight;
@@ -2685,7 +2684,7 @@ function DrawBarView()
 		{
 			var groupid = GroupOrder[idx];
 			var Group = S.GroupInfo[groupid];
-			var GColor = GroupColors ? g_Colors[S.GroupInfo[groupid].cid] : 'white';
+			var GColor = GroupColors ? g_Colors[S.GroupInfo[groupid].cid] : '#f8f8f2';
 			if((!GroupsDisabled[Group.name]) && FilterMatch(FilterGroup, Group.name))
 			{
 				R = 0;
@@ -2755,7 +2754,7 @@ function DrawBarView()
 	R = 0;
 	context.fillStyle = nBackColorOffset;
 	context.fillRect(0, 0, Width, Height);
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	SortColumnMouseOverNext = null;
 
 	if(Mode == ModeTimers_Threads || Mode == ModeTimers_Groups)
@@ -2796,7 +2795,7 @@ function DrawBarView()
 		X = 0;
 		context.fillStyle = nBackColorOffset;
 		context.fillRect(0, 0, NameWidth, Height);
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 
 		DrawHeaderSplitLeftRight(StrGroup, StrTimer, NameWidth);
 
@@ -2937,12 +2936,12 @@ function DrawCounterView()
 	var Y = -nOffsetCountersY + BoxHeight;
 	var X = 0;
 	var nColorIndex = 0;
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	context.font = Font;
 	var bMouseIn = 0;
 	function DrawHeaderSplitSingle(Header, Width)
 	{
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		context.fillText(Header, X, Height-FontAscent);
 		X += Width;
 		context.fillStyle = nBackColorOffset;
@@ -2951,7 +2950,7 @@ function DrawCounterView()
 	function DrawHeaderSplitSingleRight(Header, Width)
 	{
 		X += Width;
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		context.textAlign  = 'right';
 		context.fillText(Header, X - FontWidth, Height-FontAscent);
 		context.fillStyle = nBackColorOffset;
@@ -2990,7 +2989,7 @@ function DrawCounterView()
 		var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[nColorIndex];
 		context.fillStyle = bgcolor;
 		context.fillRect(0, Y, Width, HeightExpanded);
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		var c = Counter.closed ? '*' : ' ';
 		context.fillText(c + Counter.name, Indent, Y+Height-FontAscent);
 		X += CounterNameWidth;
@@ -3005,7 +3004,7 @@ function DrawCounterView()
 			context.fillText(Counter.formattedlimit, X, Y+Height-FontAscent);
 			X += CounterLimitWidth;
 			var X0 = X + 1;
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillRect(X0, Y0, Counter.boxprc * (CounterWidth-2), Height-2);
 			context.fillStyle = bgcolor;
 			context.fillRect(X0+1, Y0+1, Counter.boxprc * (CounterWidth-4), Height-4);
@@ -3057,7 +3056,7 @@ function DrawCounterView()
 				var MouseGraphX = Math.floor(DetailedViewMouseX - X);
 				if(MouseGraphX >= 0 && MouseGraphX < CounterHistory.history.length)
 				{
-					context.fillStyle = 'white';
+					context.fillStyle = '#f8f8f2';
 					var Formatted = FormatCounter(Counter.format, CounterHistory.history[MouseGraphX]);
 					context.fillText(Formatted, X, Y+Height-FontAscent);
 				}
@@ -3073,7 +3072,7 @@ function DrawCounterView()
 
 			}
 			X += Prc.length + 5;
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillText( FormatCounter(Counter.format, Counter.minvalue), X, Y + Height - FontAscent);
 			X += CounterWidth + 5;
 			context.fillText( FormatCounter(Counter.format, Counter.maxvalue), X, Y + Height - FontAscent);
@@ -3104,7 +3103,7 @@ function DrawCounterView()
 	X = 0;
 	context.fillStyle = nBackColorOffset;
 	context.fillRect(0, 0, Width, Height);
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	DrawHeaderSplitSingle('Name', CounterNameWidth);
 	DrawHeaderSplitSingleRight('Value', CounterValueWidth + (FontWidth+1));
 	DrawHeaderSplitSingle('Limit', CounterLimitWidth + CounterWidth + 3 * (FontWidth+1));
@@ -3327,7 +3326,7 @@ function DrawDetailedButtons(context, X, Y, Names, Callbacks, Align)
 
 	// context.textBaseline = 'top';
 	context.textAlign = Align;
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	var mx = DetailedViewMouseX;
 	var my = DetailedViewMouseY;
 	for(let i = 0; i < Names.length; ++i)
@@ -3349,22 +3348,22 @@ function DrawDetailedButtons(context, X, Y, Names, Callbacks, Align)
 		}
 		else
 		{
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 		}
 
 		context.fillText(Names[i], X, Y + FontHeight - 2);
 		X += Dir * (w+FontWidth);
 	}
 
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	context.textAlign = 'left';
 }
 
 function DrawDetailedViewLargeHeader(context, Text, Y)
 {
 	context.textAlign = "left";
-	context.fillStyle = "grey";
-	context.strokeStyle = "grey";
+	context.fillStyle = "#75715e";
+	context.strokeStyle = "#75715e";
 	context.textBaseline = "top";
 	context.font = FontLarge;
 	context.beginPath();
@@ -3414,7 +3413,7 @@ function DrawDetailedView(S, S0, context, MinWidth, bDrawEnabled)
 	let nHoverColor = '#' + nHoverHigh + nHoverHigh + nHoverHigh;
 	let nHoverColorIndex;
 
-	context.fillStyle = 'black';
+	context.fillStyle = '#1e1f1c';
 	context.font = Font;
 	// context.textBaseline = 'alphabetic';
 
@@ -3687,7 +3686,7 @@ function DrawDetailedView(S, S0, context, MinWidth, bDrawEnabled)
 					if(!bDrawEnabled)
 					{
 						context.globalAlpha = 0.3;
-						context.fillStyle = 'grey';
+						context.fillStyle = '#75715e';
 						context.fillRect(0, fOffsetY+2, nWidth, Active ? LogHeight2 + LogHeight + Padding : BoxHeight);
 						context.globalAlpha = 1.0;
 					}
@@ -4010,7 +4009,7 @@ function DrawDetailedView(S, S0, context, MinWidth, bDrawEnabled)
 			}
 			let w = context.measureText(ThreadName).width;
 			context.fillStyle = nBackColors[0];
-			context.fillStyle = 'white';
+			context.fillStyle = '#f8f8f2';
 			context.fillText(ThreadName, 0, fOffsetY+FontHeight-1);
 			if(ThreadHover)
 			{
@@ -4053,10 +4052,10 @@ function DrawDetailedView(S, S0, context, MinWidth, bDrawEnabled)
 			{
 				let width = str.length * FontWidth;
 				context.globalAlpha = 0.5;
-				context.fillStyle = 'grey';
+				context.fillStyle = '#75715e';
 				context.fillRect(X, Y-FontHeight + 2, width, FontHeight);
 				context.globalAlpha = 1.0;
-				context.fillStyle = 'white';
+				context.fillStyle = '#f8f8f2';
 				context.fillText(str, X, Y);
 
 
@@ -4203,7 +4202,7 @@ function DrawTextBox(context, text, x, y, align)
 	}
 	context.fillStyle = nBackColors[0];
 	context.fillRect(x + offsetx, y + offsety, textsize+2, FontHeight + 2);
-	context.fillStyle = 'white';
+	context.fillStyle = '#f8f8f2';
 	context.fillText(text, x, y);
 
 }
@@ -4359,7 +4358,7 @@ function DrawRange(context, Range, ColorBack, ColorFront, Name, Offset)
 		let Center = ((fBegin + fEnd) / 2.0) - Off;
 		let DurationWidth = context.measureText(Duration+ "   ").width;
 
-		context.fillStyle = 'white';
+		context.fillStyle = '#f8f8f2';
 		context.textAlign = 'right';
 		let TextPosY = Y + YSpace;
 		DrawTextBox(context, (fBegin-Range.Off).toFixed(2), X-3, TextPosY, 'right');
@@ -4558,9 +4557,8 @@ function DrawGraph(context, Parameters, data, Mouse)
 
 	}
 	context.globalAlpha = 1;
-	context.fillStyle = 'wheat';
-	context.strokeStyle = 'wheat';
-	context.textAlign='right';
+	context.fillStyle = '#75715e';
+	context.strokeStyle = '#75715e';	context.textAlign='right';
 	context.fillText(RangeMax + Ext, x+w, y + FontHeight);
 	for(let m in Parameters.Mark)
 	{
@@ -5479,7 +5477,7 @@ function ThreadMenuSize()
 
 function DrawMenuSeparator(context, X, Y, W, Height)
 {
-	context.fillStyle = 'grey';
+	context.fillStyle = '#75715e';
 	context.fillRect(X-2, Y, W+2, Height);
 }
 
@@ -7074,7 +7072,7 @@ function DrawFilterSearch()
 				{
 					Count++;
 					var ParentName = S.GroupInfo[v.group].name;
-					var ParentColor = 'white';
+					var ParentColor = '#f8f8f2';
 					var bMouseIn = MouseY >= Y && MouseY < Y + BoxHeight;
 					var bgcolor = bMouseIn ? nBackColorOffset : nBackColors[nColorIndex];
 					var TextY = Y+BoxHeight-FontAscent;
@@ -7945,26 +7943,27 @@ function ColorFromString(Name, S, L)
 }
 function LerpColor(v)
 {
-	let R_0 = 0;
-	let G_0 = 1;
-	let B_0 = 0;
+	let R_0 = 0.65; // #a6e22e
+	let G_0 = 0.88;
+	let B_0 = 0.18;
 
-	let R_1 = 1;
-	let G_1 = 0.5;
-	let B_1 = 0;
+	let R_1 = 0.90; // #e6db74
+	let G_1 = 0.86;
+	let B_1 = 0.45;
 
-	let R_2 = 1;
-	let G_2 = 0;
-	let B_3 = 0;
+	let R_2 = 0.98; // #f92672
+	let G_2 = 0.15;
+	let B_2 = 0.45;
 	let R;
 	let G;
+	let B;
 	if(v < 0.5)
 	{
 		v *= 2;
 		let v0 = (1-v);
 		R = R_0 * v0 + R_1 * v;
 		G = G_0 * v0 + G_1 * v;
-
+		B = B_0 * v0 + B_1 * v;
 	}
 	else
 	{
@@ -7972,10 +7971,12 @@ function LerpColor(v)
 		let v0 = (1-v);
 		R = R_1 * v0 + R_2 * v;
 		G = G_1 * v0 + G_2 * v;
+		B = B_1 * v0 + B_2 * v;
 	}
 	R *= 255;
 	G *= 255;
-	return "rgb(" + R.toFixed(0) + "," + G.toFixed(0) + ",0)";
+	B *= 255;
+	return "rgb(" + R.toFixed(0) + "," + G.toFixed(0) + "," + B.toFixed(0) + ")";
 
 }
 

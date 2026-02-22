@@ -2301,7 +2301,23 @@ void MicroProfileOnThreadCreate(const char* pThreadName)
 	char Buffer[64];
 	g_bUseLock = true;
 	MicroProfileInit();
-	MP_ASSERT(MicroProfileGetThreadLog() == 0);
+
+	MicroProfileThreadLog* pExistingLog = MicroProfileGetThreadLog();
+	if (pExistingLog)
+	{
+		// UAA - Thread log might already be initialized by profiling macros running early before naming. 
+		// Instead of asserting and crashing, we just update the thread name if one is explicitly provided.
+		if (pThreadName)
+		{
+			int len = (int)strlen(pThreadName);
+			int maxlen = sizeof(pExistingLog->ThreadName) - 1;
+			len = len < maxlen ? len : maxlen;
+			memcpy(&pExistingLog->ThreadName[0], pThreadName, len);
+			pExistingLog->ThreadName[len] = '\0';
+		}
+		return;
+	}
+
 	MicroProfileThreadLog* pLog = MicroProfileCreateThreadLog(pThreadName ? pThreadName : MicroProfileGetThreadName(Buffer));
 	(void)Buffer;
 	MP_ASSERT(pLog);

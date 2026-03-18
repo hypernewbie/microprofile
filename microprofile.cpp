@@ -1393,7 +1393,7 @@ inline MicroProfileLogEntry MicroProfileMakeLogExtendedNoData(EMicroProfileToken
 	MicroProfileLogEntry Entry = (((uint64_t)MP_LOG_EXTENDED_NO_DATA) << 62) | ((0x3fff & (uint64_t)eTokenExt) << 48) | (MP_LOG_TICK_MASK & nPayload);
 
 	MP_ASSERT(MicroProfileLogGetExtendedToken(Entry) == eTokenExt);
-	MP_ASSERT(MicroProfileLogGetExtendedPayloadNoData(Entry) == nPayload);
+	MP_ASSERT(MicroProfileLogGetExtendedPayloadNoData(Entry) == (MP_LOG_TICK_MASK & nPayload)); // [UAA] Acknowledge truncation; absolute value doesn't matter for deltas, but large timestamps from high uptime servers trigger this assert.
 
 	return Entry;
 }

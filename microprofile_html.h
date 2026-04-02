@@ -7470,7 +7470,6 @@ const char g_MicroProfileHtml_end_5[] =
 "		    if (t == 1 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION)) { sp++; if (sp > MaxStack) MaxStack = sp; }\n"
 "		    else if (t == 0 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION) && sp > 0) sp--;\n"
 "		  } if (MaxStack == 0) MaxStack = 1; }\n"
-"		S.MaxStack[nLog] = MaxStack;\n"
 "		// [UAA] - END - Recompute MaxStack from filtered data\n"
 "		let SectionColorStack = new Array(MaxStack);\n"
 "		SectionColorStack[0] = CIDFail;\n"

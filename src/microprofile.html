@@ -7436,7 +7436,6 @@ function PreprocessLogBarArray()
 		    if (t == 1 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION)) { sp++; if (sp > MaxStack) MaxStack = sp; }
 		    else if (t == 0 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION) && sp > 0) sp--;
 		  } if (MaxStack == 0) MaxStack = 1; }
-		S.MaxStack[nLog] = MaxStack;
 		// [UAA] - END - Recompute MaxStack from filtered data
 		let SectionColorStack = new Array(MaxStack);
 		SectionColorStack[0] = CIDFail;

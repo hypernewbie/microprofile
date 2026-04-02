@@ -7424,7 +7424,20 @@ function PreprocessLogBarArray()
 
 	for(let nLog = 0; nLog < NumLogs; nLog++)
 	{
-		let MaxStack = S.MaxStack[nLog];
+		let SrcTypeArray = S.TypeArray[nLog];
+		let SrcTimeArray = S.TimeArray[nLog];
+		let SrcIndexArray = S.IndexArray[nLog];
+		let len = SrcTypeArray.length;
+		// [UAA] - BEGIN - Recompute MaxStack from filtered data (original S.MaxStack was computed from unfiltered data; discard can unbalance push/pop)
+		let MaxStack = 0;
+		{ let sp = 0;
+		  for (let i = 0; i < len; i++) {
+		    let t = SrcTypeArray[i];
+		    if (t == 1 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION)) { sp++; if (sp > MaxStack) MaxStack = sp; }
+		    else if (t == 0 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION) && sp > 0) sp--;
+		  } if (MaxStack == 0) MaxStack = 1; }
+		S.MaxStack[nLog] = MaxStack;
+		// [UAA] - END - Recompute MaxStack from filtered data
 		let SectionColorStack = new Array(MaxStack);
 		SectionColorStack[0] = CIDFail;
 		let StackPos = 0;
@@ -7454,11 +7467,6 @@ function PreprocessLogBarArray()
 			Rows[i] = Row;
 		}
 		let RootSectionColor = CIDFail;
-
-		let SrcTypeArray = S.TypeArray[nLog];
-		let SrcTimeArray = S.TimeArray[nLog];
-		let SrcIndexArray = S.IndexArray[nLog];
-		let len = SrcTypeArray.length;
 
 		for(let i = 0; i < len; ++i)
 		{

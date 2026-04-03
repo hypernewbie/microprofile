@@ -7426,21 +7426,30 @@ function PreprocessLogBarArray()
 	let LogRows = new Array(NumLogs);
 	S.LogRows = LogRows;
 
+	// [UAA] - BEGIN - Helper to create a Row object for dynamic growth
+	function MakeRow(i) {
+		let Row = new Object();
+		Row.Offset = i;
+		Row.Tree = new Array();
+		Row.Tree[0] = new Object();
+		Row.Tree[0].Source = new Array();
+		Row.Tree[0].Index_ = new Array();
+		Row.Tree[0].ColorIds_ = new Array();
+		Row.Tree[0].Begin_ = new Array();
+		Row.Tree[0].Duration_ = new Array();
+		Row.Tree[0].MaxDuration_ = new Array();
+		Row.Tree[0].SumDuration_ = new Array();
+		Row.Tree[0].SectionColor_ = new Array();
+		Row.Tree[0].Parent_ = -1;
+		Row.Tree[0].Tail = 0;
+		Row.Tree[0].Length = 0;
+		return Row;
+	}
+	// [UAA] - END - Helper to create a Row object for dynamic growth
+
 	for(let nLog = 0; nLog < NumLogs; nLog++)
 	{
-		let SrcTypeArray = S.TypeArray[nLog];
-		let SrcTimeArray = S.TimeArray[nLog];
-		let SrcIndexArray = S.IndexArray[nLog];
-		let len = SrcTypeArray.length;
-		// [UAA] - BEGIN - Recompute MaxStack from filtered data (original S.MaxStack was computed from unfiltered data; discard can unbalance push/pop)
-		let MaxStack = 0;
-		{ let sp = 0;
-		  for (let i = 0; i < len; i++) {
-		    let t = SrcTypeArray[i];
-		    if (t == 1 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION)) { sp++; if (sp > MaxStack) MaxStack = sp; }
-		    else if (t == 0 && !(S.TimerInfo[SrcIndexArray[i]].flags & FLAGS_SECTION) && sp > 0) sp--;
-		  } if (MaxStack == 0) MaxStack = 1; }
-		// [UAA] - END - Recompute MaxStack from filtered data
+		let MaxStack = S.MaxStack[nLog];
 		let SectionColorStack = new Array(MaxStack);
 		SectionColorStack[0] = CIDFail;
 		let StackPos = 0;
@@ -7450,26 +7459,14 @@ function PreprocessLogBarArray()
 		LogRows[nLog] = Rows;
 		for(let i = 0; i < MaxStack; ++i)
 		{
-			Row = new Object();
-			//Note; This has always got implied begin / end tied together
-			Row.Offset = i;
-			Row.Tree = new Array()
-			Row.Tree[0] = new Object();
-			Row.Tree[0].Source = new Array();
-			Row.Tree[0].Index_ = new Array();
-			Row.Tree[0].ColorIds_ = new Array();
-			Row.Tree[0].Begin_ = new Array();
-			Row.Tree[0].Duration_ = new Array();
-			Row.Tree[0].MaxDuration_ = new Array();
-			Row.Tree[0].SumDuration_ = new Array();
-			Row.Tree[0].SectionColor_ = new Array();
-			Row.Tree[0].Parent_ = -1;
-			Row.Tree[0].Tail = 0;
-			Row.Tree[0].Length = 0;
-
-			Rows[i] = Row;
+			Rows[i] = MakeRow(i); // [UAA]
 		}
 		let RootSectionColor = CIDFail;
+
+		let SrcTypeArray = S.TypeArray[nLog];
+		let SrcTimeArray = S.TimeArray[nLog];
+		let SrcIndexArray = S.IndexArray[nLog];
+		let len = SrcTypeArray.length;
 
 		for(let i = 0; i < len; ++i)
 		{
@@ -7507,7 +7504,7 @@ function PreprocessLogBarArray()
 					{
 						//debugger;
 						// Hitting a close, without a start. tag all previously untagged to belong to this section.
-						for(let i = 0; i < MaxStack; ++i)
+						for(let i = 0; i < Rows.length; ++i) // [UAA] Rows.length instead of MaxStack
 						{
 							let sc = Rows[i].Tree[0].SectionColor_;
 							for(let j = 0; j < sc.length; ++j)
@@ -7537,8 +7534,11 @@ function PreprocessLogBarArray()
 						debugger;
 					if(index != beginindex)
 						debugger;
-					if(StackPos >= MaxStack || StackPos < 0)
+					if(StackPos < 0)
 						debugger;
+					// [UAA] - BEGIN - Grow Rows if StackPos exceeds MaxStack (discard can unbalance push/pop)
+					while(StackPos >= Rows.length) { Rows.push(MakeRow(Rows.length)); }
+					// [UAA] - END - Grow Rows if StackPos exceeds MaxStack
 					let rt0 = Rows[StackPos].Tree[0];
 					rt0.Source.push(i);
 					rt0.Index_.push(beginindex);
@@ -7715,7 +7715,7 @@ function PreprocessGlobalArray()
 			var DiscardLast = 0;
 			for(var xx = 0; xx < len; ++xx)
 			{
-				var Skip = (tt[i]&3 == 3) ? DiscardLast : (CanDiscard && ts[xx] > FrameDiscard);
+				var Skip = ((tt[xx]&3) == 3) ? DiscardLast : (CanDiscard && ts[xx] > FrameDiscard); // [UAA] - fix: tt[i]->tt[xx], add parens for & vs == precedence
 				if(Skip)
 				{
 					Discard++;

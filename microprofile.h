@@ -774,7 +774,7 @@ typedef void (*MicroProfileOnFreeze)(int nFrozen);
 #endif
 
 #ifndef MICROPROFILE_PER_THREAD_BUFFER_SIZE
-#define MICROPROFILE_PER_THREAD_BUFFER_SIZE (2048 << 10)
+#define MICROPROFILE_PER_THREAD_BUFFER_SIZE (8192 << 10) // [UAA] - 8MB per thread (was 2MB); needed for high-frequency VRHI profiling across 30-frame dumps
 #endif
 
 #ifndef MICROPROFILE_PER_THREAD_GPU_BUFFER_SIZE
